@@ -16,7 +16,7 @@
         <ListView Margin="0,5,0,5" SeparatorColor="White" x:Name="notesList"
               HasUnevenRows="True"
               ItemsSource="{Binding Notes}"
-                  ItemSelected="Update_Note_Click">
+                  ItemTapped="Update_Note_Click">
             <ListView.Behaviors>
                 <extended:InfiniteScrollBehavior IsLoadingMore="{Binding IsBusy}"/>
             </ListView.Behaviors>

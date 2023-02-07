@@ -50,31 +50,30 @@ namespace NotesMobile
             OnNoteInput(string.Empty, 5);
         }
 
-        public async void Update_Note_Click(object sender, SelectedItemChangedEventArgs e)
+        private async void Update_Note_Click(object sender, TappedEventArgs e)
         {
             await Navigation.PushAsync(new NoteEditorPage((NoteViewModel)notesList.SelectedItem, _noteService));
         }
 
-        public async void Add_Note_Click(object sender, EventArgs e)
+        private async void Add_Note_Click(object sender, EventArgs e)
         {
             var editPage = new NoteEditorPage(new NoteViewModel(), _noteService);
             notesList.SelectedItem = null;
             await Navigation.PushAsync(editPage);
         }
 
-        public async void Delete_Click(object sender, EventArgs e)
+        private async void Delete_Click(object sender, EventArgs e)
         {
             var note = notesList.SelectedItem as NoteViewModel;
             if (note != null)
             {
                 await _noteService.DeleteAsync(note.Note);
-                var noteIndex = Notes.IndexOf(note);//change index?
                 Notes.Remove(note);
                 notesList.SelectedItem = null;
             }
         }
 
-        public async void OnEntryStartInput(object sender, TextChangedEventArgs e)
+        private async void OnEntryStartInput(object sender, TextChangedEventArgs e)
         {
             Notes.Clear();
             countPage = 0;
