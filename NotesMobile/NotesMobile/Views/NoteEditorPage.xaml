@@ -10,7 +10,8 @@
                    FontSize="30" Text="{Binding Source={x:Reference Name=entryHeader},Path=Text}" >
             </Label>
         </StackLayout>
-        <Entry x:Name="entryHeader" Text="{Binding Header}" FontSize="30" Placeholder="header..."></Entry>
-        <Editor x:Name="editorText" BackgroundColor="DarkGray" Text="{Binding Text}" FontSize="20" Placeholder="text..."></Editor>
+        <Entry x:Name="entryHeader" MaxLength="20" Text="{Binding Header}" FontSize="30" Placeholder="header..."/>
+        <Editor x:Name="editorText" MaxLength="300" BackgroundColor="DarkGray" 
+                Text="{Binding Text}" FontSize="20" Placeholder="text..."/>
     </StackLayout>
 </ContentPage>

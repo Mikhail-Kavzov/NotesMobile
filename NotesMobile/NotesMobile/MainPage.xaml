@@ -9,7 +9,7 @@
         <StackLayout Margin="0,0,5,0"  Orientation="Horizontal">
             <Button Text="+" FontSize="Large" Clicked="Add_Note_Click"/>
             <Entry x:Name="tbSearch"  FontSize="Large" Margin="0,0,0,5" HorizontalOptions="FillAndExpand"
-                   TextChanged="OnEntryStartInput"/>
+                   TextChanged="OnEntryStartInput" MaxLength="50"/>
         </StackLayout>
         <Label HorizontalTextAlignment="Center" IsVisible="false" x:Name="nothingLabel" 
                Text="Ничего не найдено..." FontSize="Large"></Label>
