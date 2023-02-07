@@ -8,9 +8,10 @@ using System.Threading.Tasks;
 
 namespace NotesMobile.Repository.Implementation
 {
-    public class SQLiteRepository : ISQLRepository<DatabaseNote>
+    public class SQLiteRepository : ISQLRepository<DatabaseNote>, IDisposable
     {
         private readonly SQLiteAsyncConnection _db;
+        private bool disposedValue;
 
         public SQLiteRepository(string connectionString)
         {
@@ -53,6 +54,25 @@ namespace NotesMobile.Repository.Implementation
             }
             await _db.UpdateAsync(item);
             return item.Id;
+        }
+
+        protected async virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                await _db.CloseAsync();
+                disposedValue = true;
+            }
+        }
+        ~SQLiteRepository()
+        {
+            Dispose(disposing: false);
+        }
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 }

@@ -11,6 +11,5 @@ namespace NotesMobile.Services.Interfaces
         Task<IEnumerable<T>> GetAllNotesAsync(int skip, int take);
         Task<int> SaveAsync(T item);
         Task DeleteAsync(T item);
-        Task CreateTableAsync();
     }
 }
