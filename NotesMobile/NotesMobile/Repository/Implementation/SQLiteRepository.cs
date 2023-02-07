@@ -14,7 +14,9 @@ namespace NotesMobile.Repository.Implementation
 
         public SQLiteRepository(string connectionString)
         {
-            _db = new SQLiteAsyncConnection(connectionString);
+            _db = new SQLiteAsyncConnection(connectionString, SQLiteOpenFlags.Create |
+            SQLiteOpenFlags.FullMutex |
+            SQLiteOpenFlags.ReadWrite);
         }
 
         public async Task CreateTableAsync()

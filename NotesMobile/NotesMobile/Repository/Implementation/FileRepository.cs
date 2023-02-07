@@ -4,27 +4,26 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Forms.PlatformConfiguration;
 
 namespace NotesMobile.Repository.Implementation
 {
     public class FileRepository : INoteRepository<Note>
     {
-        private static readonly string _ext = ".txt";
-        private static readonly string _directory = Directory.GetCurrentDirectory() + "/fileNotes";
+        private static readonly string _ext = ".zam";
+        private static readonly string _directory;
 
         static FileRepository()
         {
-            if (!Directory.Exists(_directory))
-            {
-                Directory.CreateDirectory(_directory);
-            }
+            _directory = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         }
 
         public async Task DeleteAsync(Note item)
         {
-            await Task.Run(() => File.Delete(_directory + item.Header + _ext));
+            await Task.Run(() => File.Delete(_directory+item.Header + _ext));
         }
 
         public async Task<IEnumerable<Note>> GetAllNotesAsync(int skip, int take)
@@ -69,7 +68,7 @@ namespace NotesMobile.Repository.Implementation
 
         public async Task<int> SaveAsync(Note item)
         {
-            using (var writer = new StreamWriter(_directory + item.Header, false))
+            using (var writer = new StreamWriter(_directory+item.Header+_ext, false))
             {
                 await writer.WriteAsync(item.Text);
             }

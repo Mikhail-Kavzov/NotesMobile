@@ -62,7 +62,7 @@ namespace NotesMobile.Services.Implementation
         {
             await _fileRepository.SaveAsync(item);
             var databaseNote = item as DatabaseNote;
-            if (databaseNote != null)
+            if (databaseNote == null)
             {
                 databaseNote = new DatabaseNote() { Id = 0, Header = item.Header, Text = item.Text };
             }

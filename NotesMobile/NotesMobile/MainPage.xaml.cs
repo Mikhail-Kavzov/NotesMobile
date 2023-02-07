@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,8 +29,12 @@ namespace NotesMobile
         {
             InitializeComponent();
             Notes = new ObservableCollection<NoteViewModel>();
-            _noteService = new NoteService("notes.db");
+            var conString = Path.Combine(Environment.
+                GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"notes.db");
+            _noteService = new NoteService(conString);
+            _noteService.CreateTableAsync();
             BindingContext = this;
+            OnNoteInput(string.Empty);
         }
 
         public async void Update_Note_Click(object sender, SelectedItemChangedEventArgs e)

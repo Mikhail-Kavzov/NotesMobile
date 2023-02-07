@@ -23,7 +23,7 @@ namespace NotesMobile.ViewModels
             this.note = note;
         }
 
-        public Note Note { get; }
+        public Note Note { get => note; }
 
         public string Header
         {
