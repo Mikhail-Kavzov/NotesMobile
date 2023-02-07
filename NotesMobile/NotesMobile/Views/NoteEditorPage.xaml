@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NotesMobile.Views.NoteEditorPage">
     <StackLayout>
-        <Label x:Name="labelHeader"></Label>
-        <Entry></Entry>
-        <Editor></Editor>
+        <Label x:Name="labelHeader"  ></Label>
+        <Entry x:Name="entryHeader"></Entry>
+        <Editor x:Name="editorText"></Editor>
     </StackLayout>
 </ContentPage>

@@ -17,6 +17,13 @@ namespace NotesMobile.ViewModels
             note = new Note();
         }
 
+        public NoteViewModel(Note note)
+        {
+            this.note = note;
+        }
+
+        public Note Note { get; }
+
         public string Header
         {
             get => note.Header;

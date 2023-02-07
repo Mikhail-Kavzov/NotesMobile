@@ -24,7 +24,7 @@ namespace NotesMobile.Repository.Implementation
 
         public async Task DeleteAsync(Note item)
         {
-            await Task.Run(() => File.Delete(item.Header));
+            await Task.Run(() => File.Delete(_directory + item.Header + _ext));
         }
 
         public async Task<IEnumerable<Note>> GetAllNotesAsync(int skip, int take)

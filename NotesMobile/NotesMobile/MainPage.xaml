@@ -4,13 +4,31 @@
              x:Class="NotesMobile.MainPage">
 
     <StackLayout>
-    <StackLayout Orientation="Horizontal">
-        <Button Text="+">
-        </Button>
-        <Entry></Entry>
-    </StackLayout>
-        <ListView>
-            
+        <StackLayout  Orientation="Horizontal">
+            <Button Text="+">
+            </Button>
+            <Entry x:Name="tbSearch"></Entry>
+        </StackLayout>
+        <ListView x:Name="notesList"
+              HasUnevenRows="True"
+              ItemsSource="{Binding Notes}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.ContextActions>
+                            <MenuItem Text="Вверх" />
+                            <MenuItem Text="Вниз" />
+                            <MenuItem Text="Удалить" />
+                        </ViewCell.ContextActions>
+                        <ViewCell.View>
+                            <StackLayout>
+                                <Label Text="{Binding Header}" FontSize="Large" />
+                                <Label Text="{Binding Text}" />
+                            </StackLayout>
+                        </ViewCell.View>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
         </ListView>
     </StackLayout>
 
