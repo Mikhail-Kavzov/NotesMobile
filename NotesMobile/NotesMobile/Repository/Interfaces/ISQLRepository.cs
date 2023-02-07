@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace NotesMobile.Repository.Interfaces
 {
-    internal interface ISQlRepository
+    public interface ISQLRepository<T>:INoteRepository<T>
     {
+        Task CreateTableAsync();
     }
 }

@@ -22,14 +22,14 @@ namespace NotesMobile.Repository.Implementation
             }
         }
 
-        public Task DeleteAsync(Note item)
+        public async Task DeleteAsync(Note item)
         {
-            File.Delete(item.Header);
+            await Task.Run(() => File.Delete(item.Header));
         }
 
-        public async Task<IEnumerable<Note>> GetNotesAsync(string searchString)
+        public async Task<IEnumerable<Note>> GetAllNotesAsync(int skip, int take)
         {
-            var fileNotes = Directory.GetFiles(_directory).Where(f => f.Contains(_ext));
+            var fileNotes = GetFiles(skip, take);
             var notes = new List<Note>();
             foreach (var file in fileNotes)
             {
@@ -39,11 +39,41 @@ namespace NotesMobile.Repository.Implementation
                     notes.Add(new Note() { Header = file, Text = text });
                 }
             }
+            return notes;
         }
 
-        public Task<int> SaveAsync(Note item)
+        private IEnumerable<string> GetFiles(int skip, int take)
         {
-            throw new NotImplementedException();
+            return Directory.GetFiles(_directory).Where(f => f.Contains(_ext)).
+                Skip(skip * take).Take(take);
+        }
+
+        public async Task<IEnumerable<Note>> GetNotesAsync(string searchString,
+            int skip, int take)
+        {
+            var fileNotes = GetFiles(skip, take);
+            var notes = new List<Note>();
+            foreach (var file in fileNotes)
+            {
+                using (var reader = new StreamReader(file))
+                {
+                    var text = await reader.ReadToEndAsync();
+                    if (text.Contains(searchString) || file.Contains(searchString))
+                    {
+                        notes.Add(new Note() { Header = file, Text = text });
+                    }
+                }
+            }
+            return notes;
+        }
+
+        public async Task<int> SaveAsync(Note item)
+        {
+            using (var writer = new StreamWriter(_directory + item.Header, false))
+            {
+                await writer.WriteAsync(item.Text);
+            }
+            return item.Text.Length;
         }
     }
 }
