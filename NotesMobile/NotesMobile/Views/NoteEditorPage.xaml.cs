@@ -33,6 +33,11 @@ namespace NotesMobile.Views
 
         private async void Save_Note_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(Note.Text) || string.IsNullOrEmpty(Note.Header))
+            {
+                await DisplayAlert("info", "Fields shouldn't be empty", "ОК");
+                return;
+            }
             await _noteService.SaveAsync(Note.Note);
         }
     }

@@ -4,11 +4,13 @@
              x:Class="NotesMobile.Views.NoteEditorPage">
     <StackLayout>
         <StackLayout Orientation="Horizontal">
-            <Button Text="Назад" Clicked="BackButton_Click"></Button>
-            <Button Text="Save" Clicked="Save_Note_Click"></Button>
-            <Label x:Name="labelHeader" Text="{Binding Source={x:Reference Name=entryHeader},Path=Text}" ></Label>
+            <Button Text="Back" Clicked="BackButton_Click"></Button>
+            <Button Text="Save" Clicked="Save_Note_Click" ></Button>
+            <Label x:Name="labelHeader" MinimumHeightRequest="200"
+                   FontSize="30" Text="{Binding Source={x:Reference Name=entryHeader},Path=Text}" >
+            </Label>
         </StackLayout>
-        <Entry x:Name="entryHeader" Text="{Binding Header}" Placeholder="header..."></Entry>
-        <Editor x:Name="editorText" Text="{Binding Text}" Placeholder="text..."></Editor>
+        <Entry x:Name="entryHeader" Text="{Binding Header}" FontSize="30" Placeholder="header..."></Entry>
+        <Editor x:Name="editorText" BackgroundColor="DarkGray" Text="{Binding Text}" FontSize="20" Placeholder="text..."></Editor>
     </StackLayout>
 </ContentPage>

@@ -6,21 +6,20 @@ using NotesMobile.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using Xamarin.Forms.Extended;
 using Xamarin.Forms.Internals;
 
 namespace NotesMobile
 {
     public partial class MainPage : ContentPage
     {
-        public ObservableCollection<NoteViewModel> Notes { get; set; }
+        public InfiniteScrollCollection<NoteViewModel> Notes { get; set; }
         private readonly INoteService<Note> _noteService;
-        private readonly int take = 5;
+        private readonly int take = 1;
         private int countPage = 0;
         private int index = 0;
         private bool isEnd = false;
@@ -28,13 +27,20 @@ namespace NotesMobile
         public MainPage()
         {
             InitializeComponent();
-            Notes = new ObservableCollection<NoteViewModel>();
+            Notes = new InfiniteScrollCollection<NoteViewModel>()
+            {
+                OnLoadMore = async () =>
+                {
+                    await OnNoteInput(tbSearch.Text);
+                    return null;
+                }
+            };
             var conString = Path.Combine(Environment.
                 GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"notes.db");
             _noteService = new NoteService(conString);
             _noteService.CreateTableAsync();
             BindingContext = this;
-            OnNoteInput(string.Empty);
+            OnNoteInput(string.Empty, 5);
         }
 
         public async void Update_Note_Click(object sender, SelectedItemChangedEventArgs e)
@@ -45,6 +51,7 @@ namespace NotesMobile
         public async void Add_Note_Click(object sender, EventArgs e)
         {
             var editPage = new NoteEditorPage(new NoteViewModel(), _noteService);
+            notesList.SelectedItem = null;
             await Navigation.PushAsync(editPage);
         }
 
@@ -62,38 +69,19 @@ namespace NotesMobile
 
         public async void OnEntryStartInput(object sender, TextChangedEventArgs e)
         {
+            nothingLabel.IsVisible = false;
             Notes.Clear();
             countPage = 0;
             index = 0;
             isEnd = false;
-            await OnNoteInput(tbSearch.Text);
-        }
-
-        public void MoveTop(object sender, EventArgs e)
-        {
-            int diff = index - take;
-            if (diff < 0)
+            await OnNoteInput(tbSearch.Text, 5);
+            if (isEnd)
             {
-                return;
+                nothingLabel.IsVisible = true;
             }
-            Notes.Move(index, diff);
-            index = diff;
         }
 
-        public async void MoveBottom(object sender, EventArgs e)
-        {
-            await OnNoteInput(tbSearch.Text);
-            int diff = index + take;
-            int count = Notes.Count();
-            if (diff >= count)
-            {
-                return;
-            }
-            Notes.Move(index, diff);
-            index = diff;
-        }
-
-        private async Task OnNoteInput(string searchString)
+        private async Task OnNoteInput(string searchString, int take=5)
         {
             if (!isEnd)
             {

@@ -34,11 +34,14 @@ namespace NotesMobile.Services.Implementation
         }
 
         public async Task DeleteAsync(Note item)
-        {
-            await _fileRepository.DeleteAsync(item);
+        {          
             if (item is DatabaseNote databaseNote)
             {
                 await _databaseNoteRepository.DeleteAsync(databaseNote);
+            }
+            else
+            {
+                await _fileRepository.DeleteAsync(item);
             }
         }
 

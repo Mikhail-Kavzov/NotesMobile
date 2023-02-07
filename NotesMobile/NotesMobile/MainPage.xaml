@@ -1,28 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="NotesMobile.MainPage">
+<ContentPage  xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+              xmlns:extended="clr-namespace:Xamarin.Forms.Extended;assembly=Xamarin.Forms.Extended.InfiniteScrolling"
+              x:Class="NotesMobile.MainPage">
 
     <StackLayout>
-        <StackLayout  Orientation="Horizontal">
-            <Button Text="+" FontSize="Medium" Clicked="Add_Note_Click">
-            </Button>
-            <Entry x:Name="tbSearch" FontSize="Medium" TextChanged="OnEntryStartInput"></Entry>
+        <Button x:Name="switchBtn" Text="Switch to database" Clicked="Switch_Clicked"/>
+        <StackLayout Margin="0,0,5,0"  Orientation="Horizontal">
+            <Button Text="+" FontSize="Large" Clicked="Add_Note_Click"/>
+            <Entry x:Name="tbSearch"  FontSize="Large" Margin="0,0,0,5" HorizontalOptions="FillAndExpand"
+                   TextChanged="OnEntryStartInput"/>
         </StackLayout>
-        <ListView SeparatorColor="Aqua" x:Name="notesList"
+        <Label HorizontalTextAlignment="Center" IsVisible="false" x:Name="nothingLabel" 
+               Text="Ничего не найдено..." FontSize="Large"></Label>
+        <ListView Margin="0,5,0,5" SeparatorColor="White" x:Name="notesList"
               HasUnevenRows="True"
               ItemsSource="{Binding Notes}"
                   ItemSelected="Update_Note_Click">
+            <ListView.Behaviors>
+                <extended:InfiniteScrollBehavior IsLoadingMore="{Binding IsBusy}"/>
+            </ListView.Behaviors>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <ViewCell.ContextActions>
-                            <MenuItem Text="Вверх" Clicked="MoveTop" />
-                            <MenuItem Text="Вниз" Clicked="MoveBottom" />
-                            <MenuItem Text="Удалить" Clicked="Delete_Click"/>
+                            <MenuItem Text="Delete" Clicked="Delete_Click"/>
                         </ViewCell.ContextActions>
                         <ViewCell.View>
-                            <StackLayout>
+                            <StackLayout Padding="5,10,0,10">
                                 <Label Text="{Binding Header}" FontSize="Large" />
                                 <Label Text="{Binding Text}" FontSize="Medium" />
                             </StackLayout>
