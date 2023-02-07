@@ -20,6 +20,7 @@ namespace NotesMobile
         private readonly INoteService<Note> _noteService;
         private readonly int take = 5;
         private int countPage = 0;
+        private int index = 0;
         private bool isEnd = false;
 
         public MainPage()
@@ -36,17 +37,43 @@ namespace NotesMobile
             if (note != null)
             {
                 await _noteService.DeleteAsync(note.Note);
+                var noteIndex=Notes.IndexOf(note);//change index?
+                Notes.Remove(note);
                 notesList.SelectedItem = null;
             }
         }
 
         public async void OnEntryStartInput(object sender, EventArgs e)
         {
-            var searchString = tbSearch.Text;
             Notes.Clear();
             countPage = 0;
+            index = 0;
             isEnd = false;
-            await OnNoteInput(searchString);
+            await OnNoteInput(tbSearch.Text);
+        }
+
+        public void MoveTop(object sender, EventArgs e)
+        {
+            int diff = index - take;
+            if (diff < 0)
+            {
+                return;
+            }
+            Notes.Move(index, diff);
+            index = diff;
+        }
+
+        public async void MoveBottom(object sender, EventArgs e)
+        {
+            await OnNoteInput(tbSearch.Text);
+            int diff = index + take;
+            int count = Notes.Count();
+            if (diff >= count)
+            {
+                return;
+            }
+            Notes.Move(index, diff);
+            index = diff;
         }
 
         private async Task OnNoteInput(string searchString)

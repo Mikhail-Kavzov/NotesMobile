@@ -7,7 +7,7 @@
         <StackLayout  Orientation="Horizontal">
             <Button Text="+">
             </Button>
-            <Entry x:Name="tbSearch"></Entry>
+            <Entry x:Name="tbSearch" TextChanged="OnEntryStartInput"></Entry>
         </StackLayout>
         <ListView x:Name="notesList"
               HasUnevenRows="True"
@@ -16,9 +16,9 @@
                 <DataTemplate>
                     <ViewCell>
                         <ViewCell.ContextActions>
-                            <MenuItem Text="Вверх" />
-                            <MenuItem Text="Вниз" />
-                            <MenuItem Text="Удалить" />
+                            <MenuItem Text="Вверх" Clicked="MoveTop" />
+                            <MenuItem Text="Вниз" Clicked="MoveBottom" />
+                            <MenuItem Text="Удалить" Clicked="Delete_Click"/>
                         </ViewCell.ContextActions>
                         <ViewCell.View>
                             <StackLayout>
