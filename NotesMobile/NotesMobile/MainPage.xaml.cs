@@ -3,6 +3,7 @@ using NotesMobile.Services.Implementation;
 using NotesMobile.Services.Interfaces;
 using NotesMobile.ViewModels;
 using NotesMobile.Views;
+using SQLitePCL;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,8 +19,11 @@ namespace NotesMobile
     public partial class MainPage : ContentPage
     {
         public InfiniteScrollCollection<NoteViewModel> Notes { get; set; }
-        private readonly INoteService<Note> _noteService;
+        private INoteService<Note> _noteService;
+
         private readonly int take = 1;
+        private readonly string _databasePath;
+
         private int countPage = 0;
         private int index = 0;
         private bool isEnd = false;
@@ -27,6 +31,7 @@ namespace NotesMobile
         public MainPage()
         {
             InitializeComponent();
+
             Notes = new InfiniteScrollCollection<NoteViewModel>()
             {
                 OnLoadMore = async () =>
@@ -35,10 +40,13 @@ namespace NotesMobile
                     return null;
                 }
             };
-            var conString = Path.Combine(Environment.
-                GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"notes.db");
-            _noteService = new NoteService(conString);
-            _noteService.CreateTableAsync();
+
+            _databasePath = Path.Combine(Environment.
+                GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "notes.db");
+            var sqliteService = new SQLNoteService(_databasePath);
+            sqliteService.CreateTableAsync();
+            _noteService = sqliteService;
+
             BindingContext = this;
             OnNoteInput(string.Empty, 5);
         }
@@ -81,7 +89,7 @@ namespace NotesMobile
             }
         }
 
-        private async Task OnNoteInput(string searchString, int take=5)
+        private async Task OnNoteInput(string searchString, int take = 5)
         {
             if (!isEnd)
             {
@@ -101,6 +109,22 @@ namespace NotesMobile
                 }
                 notes.ForEach(n => Notes.Add(new NoteViewModel(n)));
                 ++countPage;
+            }
+        }
+
+        private void Switch_Clicked(object sender, EventArgs e)
+        {
+            const string FILE = "file";
+            const string DATABASE = "database";
+            if (switchBtn.Text.Contains(FILE))
+            {
+                switchBtn.Text.Replace(FILE, DATABASE);
+                _noteService = new SQLNoteService(_databasePath);
+            }
+            else
+            {
+                switchBtn.Text.Replace(DATABASE, FILE);
+                _noteService = new FileNoteService();
             }
         }
     }

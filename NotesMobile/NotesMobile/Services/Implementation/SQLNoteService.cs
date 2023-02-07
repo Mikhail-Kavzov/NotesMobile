@@ -1,12 +1,9 @@
 ﻿using NotesMobile.Models;
 using NotesMobile.Repository.Implementation;
 using NotesMobile.Repository.Interfaces;
-using NotesMobile.Services.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using NotesMobile.Services.Interfaces;
 
 namespace NotesMobile.Services.Implementation
 {
@@ -17,14 +14,11 @@ namespace NotesMobile.Services.Implementation
         public SQLNoteService(string connection)
         {
             _databaseNoteRepository = new SQLiteRepository(connection);
-            _fileRepository = new FileRepository();
         }
 
-        public SQLNoteService(ISQLRepository<DatabaseNote> databaseNoteRepository,
-            INoteRepository<Note> fileRepository)
+        public SQLNoteService(ISQLRepository<DatabaseNote> databaseNoteRepository)
         {
             _databaseNoteRepository = databaseNoteRepository;
-            _fileRepository = fileRepository;
         }
 
         public async Task CreateTableAsync()
@@ -33,36 +27,22 @@ namespace NotesMobile.Services.Implementation
         }
 
         public async Task DeleteAsync(Note item)
-        {          
-            if (item is DatabaseNote databaseNote)
-            {
-                await _databaseNoteRepository.DeleteAsync(databaseNote);
-            }
-            else
-            {
-                await _fileRepository.DeleteAsync(item);
-            }
+        {
+            await _databaseNoteRepository.DeleteAsync(item as DatabaseNote);
         }
 
         public async Task<IEnumerable<Note>> GetAllNotesAsync(int skip, int take)
         {
-            var notesList = new List<Note>();
-            var dbNotes = await _databaseNoteRepository.GetAllNotesAsync(skip, take);
-            notesList.AddRange(dbNotes);
-            return notesList;
+            return await _databaseNoteRepository.GetAllNotesAsync(skip, take);
         }
 
         public async Task<IEnumerable<Note>> GetNotesAsync(string searchString, int skip, int take)
         {
-            var notesList = new List<Note>();
-            var dbNotes = await _databaseNoteRepository.GetNotesAsync(searchString, skip, take);
-            notesList.AddRange(dbNotes);
-            return notesList;
+            return await _databaseNoteRepository.GetNotesAsync(searchString, skip, take);
         }
 
         public async Task<int> SaveAsync(Note item)
         {
-            await _fileRepository.SaveAsync(item);
             var databaseNote = item as DatabaseNote;
             if (databaseNote == null)
             {

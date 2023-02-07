@@ -5,7 +5,7 @@
               x:Class="NotesMobile.MainPage">
 
     <StackLayout>
-        <Button x:Name="switchBtn" Text="Switch to database" Clicked="Switch_Clicked"/>
+        <Button x:Name="switchBtn" Text="Switch to file" Clicked="Switch_Clicked" Margin="5"/>
         <StackLayout Margin="0,0,5,0"  Orientation="Horizontal">
             <Button Text="+" FontSize="Large" Clicked="Add_Note_Click"/>
             <Entry x:Name="tbSearch"  FontSize="Large" Margin="0,0,0,5" HorizontalOptions="FillAndExpand"
