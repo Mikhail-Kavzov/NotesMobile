@@ -75,7 +75,7 @@ namespace NotesMobile
         }
 
         public async void OnEntryStartInput(object sender, TextChangedEventArgs e)
-        {          
+        {
             Notes.Clear();
             countPage = 0;
             isEnd = false;

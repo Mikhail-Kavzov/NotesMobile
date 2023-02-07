@@ -23,7 +23,7 @@ namespace NotesMobile.Repository.Implementation
 
         public async Task DeleteAsync(Note item)
         {
-            await Task.Run(() => File.Delete(Path.Combine(_directory,item.Header) + _ext));
+            await Task.Run(() => File.Delete(Path.Combine(_directory, item.Header) + _ext));
         }
 
         public async Task<IEnumerable<Note>> GetAllNotesAsync(int skip, int take)
@@ -43,8 +43,8 @@ namespace NotesMobile.Repository.Implementation
 
         private IEnumerable<string> GetFiles(int skip, int take)
         {
-            return Directory.GetFiles(_directory).Where(f=>f.EndsWith(_ext)).
-                Skip(skip*take).Take(take);
+            return Directory.GetFiles(_directory).Where(f => f.EndsWith(_ext)).
+                Skip(skip * take).Take(take);
         }
 
         public async Task<IEnumerable<Note>> GetNotesAsync(string searchString,
@@ -59,7 +59,11 @@ namespace NotesMobile.Repository.Implementation
                     var text = await reader.ReadToEndAsync();
                     if (text.Contains(searchString) || file.Contains(searchString))
                     {
-                        notes.Add(new Note() { Header = Path.GetFileNameWithoutExtension(file), Text = text });
+                        notes.Add(new Note()
+                        {
+                            Header = Path.GetFileNameWithoutExtension(file),
+                            Text = text
+                        });
                     }
                 }
             }
@@ -68,7 +72,7 @@ namespace NotesMobile.Repository.Implementation
 
         public async Task<int> SaveAsync(Note item)
         {
-            using (var writer = new StreamWriter(Path.Combine(_directory,item.Header) + _ext, false))
+            using (var writer = new StreamWriter(Path.Combine(_directory, item.Header) + _ext, false))
             {
                 await writer.WriteAsync(item.Text);
             }
