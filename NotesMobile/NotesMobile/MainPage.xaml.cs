@@ -27,7 +27,7 @@ namespace NotesMobile
         {
             InitializeComponent();
             Notes = new ObservableCollection<NoteViewModel>();
-            _noteService = new NoteService("");
+            _noteService = new NoteService(""); //connection string
             BindingContext = this;
         }
 

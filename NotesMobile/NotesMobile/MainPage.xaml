@@ -5,13 +5,14 @@
 
     <StackLayout>
         <StackLayout  Orientation="Horizontal">
-            <Button Text="+">
+            <Button Text="+" FontSize="Medium" Clicked="Add_Note_Click">
             </Button>
-            <Entry x:Name="tbSearch" TextChanged="OnEntryStartInput"></Entry>
+            <Entry x:Name="tbSearch" FontSize="Medium" TextChanged="OnEntryStartInput"></Entry>
         </StackLayout>
-        <ListView x:Name="notesList"
+        <ListView SeparatorColor="Aqua" x:Name="notesList"
               HasUnevenRows="True"
-              ItemsSource="{Binding Notes}">
+              ItemsSource="{Binding Notes}"
+                  ItemSelected="Update_Note_Click">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
@@ -23,7 +24,7 @@
                         <ViewCell.View>
                             <StackLayout>
                                 <Label Text="{Binding Header}" FontSize="Large" />
-                                <Label Text="{Binding Text}" />
+                                <Label Text="{Binding Text}" FontSize="Medium" />
                             </StackLayout>
                         </ViewCell.View>
                     </ViewCell>

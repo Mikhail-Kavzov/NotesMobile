@@ -3,8 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NotesMobile.Views.NoteEditorPage">
     <StackLayout>
-        <Label x:Name="labelHeader" Text="{Binding Source={x:Reference Name=entryHeader},Path=Text}" ></Label>
-        <Entry x:Name="entryHeader"></Entry>
-        <Editor x:Name="editorText"></Editor>
+        <StackLayout Orientation="Horizontal">
+            <Button Text="Назад" Clicked="BackButton_Click"></Button>
+            <Button Text="Save" Clicked="Save_Note_Click"></Button>
+            <Label x:Name="labelHeader" Text="{Binding Source={x:Reference Name=entryHeader},Path=Text}" ></Label>
+        </StackLayout>
+        <Entry x:Name="entryHeader" Text="{Binding Header}" Placeholder="header..."></Entry>
+        <Editor x:Name="editorText" Text="{Binding Text}" Placeholder="text..."></Editor>
     </StackLayout>
 </ContentPage>

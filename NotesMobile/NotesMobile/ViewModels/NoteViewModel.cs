@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace NotesMobile.ViewModels
@@ -32,7 +33,7 @@ namespace NotesMobile.ViewModels
                 if (note.Header != value)
                 {
                     note.Header = value;
-                    OnPropertyChanged("Header");
+                    OnPropertyChanged();
                 }
             }
         }
@@ -45,15 +46,15 @@ namespace NotesMobile.ViewModels
                 if (note.Text != value)
                 {
                     note.Text = value;
-                    OnPropertyChanged("Text");
+                    OnPropertyChanged();
                 }
             }
         }
 
-        protected void OnPropertyChanged(string propName)
+        protected void OnPropertyChanged([CallerMemberName] string prop="")
         {
             if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propName));
+                PropertyChanged(this, new PropertyChangedEventArgs(prop));
         }
     }
 }

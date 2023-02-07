@@ -44,21 +44,17 @@ namespace NotesMobile.Services.Implementation
 
         public async Task<IEnumerable<Note>> GetAllNotesAsync(int skip, int take)
         {
-            var notesList=new List<Note>();
-            var fileNotes = await _fileRepository.GetAllNotesAsync(skip, take);
+            var notesList = new List<Note>();
             var dbNotes = await _databaseNoteRepository.GetAllNotesAsync(skip, take);
-            notesList.AddRange(fileNotes);
             notesList.AddRange(dbNotes);
             return notesList;
         }
 
         public async Task<IEnumerable<Note>> GetNotesAsync(string searchString, int skip, int take)
         {
-            var notesList=new List<Note>();
-            var fileNotes = await _fileRepository.GetNotesAsync(searchString,skip, take);
+            var notesList = new List<Note>();
             var dbNotes = await _databaseNoteRepository.GetNotesAsync(searchString, skip, take);
-            notesList.AddRange(fileNotes);
-            notesList.AddRange(dbNotes); 
+            notesList.AddRange(dbNotes);
             return notesList;
         }
 
