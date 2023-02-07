@@ -23,7 +23,7 @@ namespace NotesMobile.Views
             InitializeComponent();
             Note = note;
             _noteService = noteService;
-            this.BindingContext = Note;
+            BindingContext = Note;
         }
 
         private async void BackButton_Click(object sender, EventArgs e)

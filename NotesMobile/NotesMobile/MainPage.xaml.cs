@@ -2,6 +2,7 @@
 using NotesMobile.Services.Implementation;
 using NotesMobile.Services.Interfaces;
 using NotesMobile.ViewModels;
+using NotesMobile.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -27,8 +28,19 @@ namespace NotesMobile
         {
             InitializeComponent();
             Notes = new ObservableCollection<NoteViewModel>();
-            _noteService = new NoteService(""); //connection string
+            _noteService = new NoteService("notes.db");
             BindingContext = this;
+        }
+
+        public async void Update_Note_Click(object sender, SelectedItemChangedEventArgs e)
+        {
+            await Navigation.PushAsync(new NoteEditorPage((NoteViewModel)notesList.SelectedItem, _noteService));
+        }
+
+        public async void Add_Note_Click(object sender, EventArgs e)
+        {
+            var editPage = new NoteEditorPage(new NoteViewModel(), _noteService);
+            await Navigation.PushAsync(editPage);
         }
 
         public async void Delete_Click(object sender, EventArgs e)
@@ -37,13 +49,13 @@ namespace NotesMobile
             if (note != null)
             {
                 await _noteService.DeleteAsync(note.Note);
-                var noteIndex=Notes.IndexOf(note);//change index?
+                var noteIndex = Notes.IndexOf(note);//change index?
                 Notes.Remove(note);
                 notesList.SelectedItem = null;
             }
         }
 
-        public async void OnEntryStartInput(object sender, EventArgs e)
+        public async void OnEntryStartInput(object sender, TextChangedEventArgs e)
         {
             Notes.Clear();
             countPage = 0;
