@@ -20,7 +20,8 @@ namespace NotesMobile.Views
         private readonly string _filePath;
         private readonly bool isFile;
 
-        public NoteEditorPage(NoteViewModel note, INoteService<Note> noteService, bool isFile):this(note, noteService)
+        public NoteEditorPage(NoteViewModel note, INoteService<Note> noteService, bool isFile)
+            : this(note, noteService)
         {
             this.isFile = isFile;
         }

@@ -53,7 +53,8 @@ namespace NotesMobile
 
         private async void Update_Note_Click(object sender, TappedEventArgs e)
         {
-            await Navigation.PushAsync(new NoteEditorPage((NoteViewModel)notesList.SelectedItem, _noteService,isFile));
+            await Navigation.PushAsync(new NoteEditorPage((NoteViewModel)notesList.SelectedItem,
+                _noteService, isFile));
         }
 
         private async void Add_Note_Click(object sender, EventArgs e)
