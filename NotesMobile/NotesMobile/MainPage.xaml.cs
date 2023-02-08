@@ -64,12 +64,12 @@ namespace NotesMobile
 
         private async void Delete_Click(object sender, EventArgs e)
         {
-            var note = notesList.SelectedItem as NoteViewModel;
+            var mi = (MenuItem)sender;
+            var note = (NoteViewModel)mi.CommandParameter;
             if (note != null)
             {
                 await _noteService.DeleteAsync(note.Note);
                 Notes.Remove(note);
-                notesList.SelectedItem = null;
             }
         }
 
