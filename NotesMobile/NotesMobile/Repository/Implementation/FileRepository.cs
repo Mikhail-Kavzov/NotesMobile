@@ -35,10 +35,10 @@ namespace NotesMobile.Repository.Implementation
                 using (var reader = new StreamReader(file))
                 {
                     var text = await reader.ReadToEndAsync();
-                    notes.Add(new Note() 
-                    { 
+                    notes.Add(new Note()
+                    {
                         Header = Path.GetFileNameWithoutExtension(file),
-                        Text = text 
+                        Text = text
                     });
                 }
             }

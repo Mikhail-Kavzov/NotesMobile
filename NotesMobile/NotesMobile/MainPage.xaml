@@ -13,7 +13,7 @@
         </StackLayout>
         <Label HorizontalTextAlignment="Center" IsVisible="false" x:Name="nothingLabel" 
                Text="Ничего не найдено..." FontSize="Large"></Label>
-        <ListView Margin="0,5,0,5"  SeparatorColor="White" x:Name="notesList"
+        <ListView Margin="5,0"  SeparatorColor="White" x:Name="notesList"
               HasUnevenRows="True"
               ItemsSource="{Binding Notes}"
                   ItemTapped="Update_Note_Click">
@@ -27,9 +27,9 @@
                             <MenuItem Text="Delete" Clicked="Delete_Click" CommandParameter="{Binding .}"/>
                         </ViewCell.ContextActions>
                         <ViewCell.View>
-                            <StackLayout Padding="5,20,0,20" >
+                            <StackLayout Padding="10,5,20,10" >
                                 <Label Text="{Binding Header}"  TextColor="White" FontSize="Large" />
-                                <Label Text="{Binding Text}" FontSize="Medium" />
+                                <Label Text="{Binding Text}" FontSize="Medium"/>
                             </StackLayout>
                         </ViewCell.View>
                     </ViewCell>

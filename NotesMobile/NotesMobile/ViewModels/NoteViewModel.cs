@@ -7,7 +7,7 @@ using System.Text;
 
 namespace NotesMobile.ViewModels
 {
-    public class NoteViewModel: INotifyPropertyChanged
+    public class NoteViewModel : INotifyPropertyChanged
     {
         private readonly Note note;
 
@@ -51,7 +51,7 @@ namespace NotesMobile.ViewModels
             }
         }
 
-        protected void OnPropertyChanged([CallerMemberName] string prop="")
+        protected void OnPropertyChanged([CallerMemberName] string prop = "")
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));

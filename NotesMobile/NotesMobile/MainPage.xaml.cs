@@ -26,6 +26,7 @@ namespace NotesMobile
 
         private int countPage = 0;
         private bool isEnd = false;
+        private bool isFile = false;
 
         public MainPage()
         {
@@ -52,7 +53,7 @@ namespace NotesMobile
 
         private async void Update_Note_Click(object sender, TappedEventArgs e)
         {
-            await Navigation.PushAsync(new NoteEditorPage((NoteViewModel)notesList.SelectedItem, _noteService));
+            await Navigation.PushAsync(new NoteEditorPage((NoteViewModel)notesList.SelectedItem, _noteService,isFile));
         }
 
         private async void Add_Note_Click(object sender, EventArgs e)
@@ -124,6 +125,7 @@ namespace NotesMobile
                 switchBtn.Text = switchBtn.Text.Replace(FILE, DATABASE);
                 _noteService = new FileNoteService();
             }
+            isFile = !isFile;
         }
     }
 }

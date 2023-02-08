@@ -12,6 +12,6 @@
         </StackLayout>
         <Entry x:Name="entryHeader" MaxLength="20" Text="{Binding Header}" FontSize="30" Placeholder="header..."/>
         <Editor x:Name="editorText" MaxLength="300" 
-                Text="{Binding Text}" FontSize="20" Placeholder="text..."/>
+                Text="{Binding Text}" HeightRequest="200" FontSize="20" Placeholder="text..."/>
     </StackLayout>
 </ContentPage>

@@ -17,6 +17,13 @@ namespace NotesMobile.Views
     {
         public NoteViewModel Note { get; set; }
         private readonly INoteService<Note> _noteService;
+        private readonly string _filePath;
+        private readonly bool isFile;
+
+        public NoteEditorPage(NoteViewModel note, INoteService<Note> noteService, bool isFile):this(note, noteService)
+        {
+            this.isFile = isFile;
+        }
 
         public NoteEditorPage(NoteViewModel note, INoteService<Note> noteService)
         {
@@ -24,6 +31,7 @@ namespace NotesMobile.Views
             Note = note;
             _noteService = noteService;
             BindingContext = Note;
+            _filePath = Note.Header;
         }
 
         private async void BackButton_Click(object sender, EventArgs e)
@@ -37,6 +45,11 @@ namespace NotesMobile.Views
             {
                 await DisplayAlert("info", "Fields shouldn't be empty", "ОК");
                 return;
+            }
+            if (_filePath != Note.Header && isFile)
+            {
+                var delModel = new Note() { Header = _filePath };
+                await _noteService.DeleteAsync(delModel);
             }
             await _noteService.SaveAsync(Note.Note);
         }

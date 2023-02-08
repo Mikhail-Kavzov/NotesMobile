@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace NotesMobile.Repository.Interfaces
 {
-    public interface ISQLRepository<T>:INoteRepository<T>
+    public interface ISQLRepository<T> : INoteRepository<T>
     {
         Task CreateTableAsync();
     }
