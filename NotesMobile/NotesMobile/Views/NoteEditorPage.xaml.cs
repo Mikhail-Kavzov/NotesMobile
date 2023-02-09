@@ -19,25 +19,28 @@ namespace NotesMobile.Views
         private readonly INoteService<Note> _noteService;
         private readonly string _filePath;
         private readonly bool isFile;
+        private readonly MainPage _mainPage;
 
-        public NoteEditorPage(NoteViewModel note, INoteService<Note> noteService, bool isFile)
-            : this(note, noteService)
+        public NoteEditorPage(NoteViewModel note, INoteService<Note> noteService, bool isFile, MainPage mainPage)
+            : this(note, noteService, mainPage)
         {
             this.isFile = isFile;
         }
 
-        public NoteEditorPage(NoteViewModel note, INoteService<Note> noteService)
+        public NoteEditorPage(NoteViewModel note, INoteService<Note> noteService, MainPage mainPage)
         {
             InitializeComponent();
             Note = note;
             _noteService = noteService;
             BindingContext = Note;
             _filePath = Note.Header;
+            _mainPage = mainPage;
         }
 
         private async void BackButton_Click(object sender, EventArgs e)
         {
             await Navigation.PopAsync();
+            _mainPage.OnEntryStartInput(null, null);
         }
 
         private async void Save_Note_Click(object sender, EventArgs e)

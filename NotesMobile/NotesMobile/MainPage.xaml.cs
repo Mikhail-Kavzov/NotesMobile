@@ -54,12 +54,12 @@ namespace NotesMobile
         private async void Update_Note_Click(object sender, TappedEventArgs e)
         {
             await Navigation.PushAsync(new NoteEditorPage((NoteViewModel)notesList.SelectedItem,
-                _noteService, isFile));
+                _noteService, isFile, this));
         }
 
         private async void Add_Note_Click(object sender, EventArgs e)
         {
-            var editPage = new NoteEditorPage(new NoteViewModel(), _noteService);
+            var editPage = new NoteEditorPage(new NoteViewModel(), _noteService, this);
             notesList.SelectedItem = null;
             await Navigation.PushAsync(editPage);
         }
@@ -75,7 +75,7 @@ namespace NotesMobile
             }
         }
 
-        private async void OnEntryStartInput(object sender, TextChangedEventArgs e)
+        internal async void OnEntryStartInput(object sender, TextChangedEventArgs e)
         {
             Notes.Clear();
             countPage = 0;
@@ -127,6 +127,7 @@ namespace NotesMobile
                 _noteService = new FileNoteService();
             }
             isFile = !isFile;
+            OnEntryStartInput(tbSearch, null);
         }
     }
 }
